@@ -48,9 +48,31 @@
 
   @*   For Client side  login timer  *@
     <script>
-        setTimeout(function () {
+        let timeout;
+
+        function resetTimer() {
+            clearTimeout(timeout);
+            timeout = setTimeout(logout, 30000); // 30 minutes
+
+            // Optional: Send a keep-alive request to the server
+            fetch('@Url.Action("KeepAlive", "Home")', {
+                method: 'POST',
+                credentials: 'same-origin'
+            });
+        }
+
+        function logout() {
             window.location.href = '@Url.Action("Index", "Home")';
-        }, 30000); // 30 seconds
+        }
+
+        // Reset the timer on any of these events
+        window.onload = resetTimer;
+        window.onmousemove = resetTimer;
+        window.onmousedown = resetTimer; // catches touchscreen presses
+        window.ontouchstart = resetTimer;
+        window.onclick = resetTimer;     // catches touchpad clicks
+        window.onkeypress = resetTimer;
+        window.addEventListener('scroll', resetTimer, true); // improved; see comments
     </script>
 
 

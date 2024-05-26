@@ -68,6 +68,10 @@ namespace SessionBasedAuthenticationMVC.Controllers
                 return View();
             
         }
+        public IActionResult KeepAlaive()
+        {
+            return Ok();
+        }
 
         [HttpPost]
         public  async Task<IActionResult> Logout()
